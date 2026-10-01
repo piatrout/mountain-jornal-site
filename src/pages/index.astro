@@ -1,17 +1,33 @@
 ---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getGradeBucket } from '../lib/grades';
 
+const routes = (await getCollection('routes', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+  <section class="mx-auto max-w-7xl px-5 py-24 sm:px-8">
+    <h1 class="text-6xl font-semibold tracking-tight">Mountain Journal</h1>
+    <p class="mt-6 max-w-2xl text-xl text-neutral-600">
+      Temporary placeholder. The hero and recent routes grid come in a later step.
+    </p>
+    <ul class="mt-16 divide-y divide-neutral-200 border-y border-neutral-200">
+      {
+        routes.map((route) => {
+          const bucket = getGradeBucket(route.data.grade);
+          return (
+            <li class="flex items-center justify-between gap-4 py-5">
+              <span class="text-lg font-medium">{route.data.title}</span>
+              <span class={`rounded px-2 py-1 text-xs font-semibold ${bucket.badgeClass}`}>
+                {route.data.gradeSystem} {route.data.grade}
+              </span>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </section>
+</BaseLayout>

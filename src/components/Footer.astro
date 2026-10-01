@@ -1,0 +1,12 @@
+---
+import { SITE_TITLE } from '../consts';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-neutral-200">
+  <div class="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-10 text-sm text-neutral-500 sm:flex-row sm:justify-between sm:px-8">
+    <p>&copy; {year} {SITE_TITLE}</p>
+    <p>Routes, ridges and summits.</p>
+  </div>
+</footer>
